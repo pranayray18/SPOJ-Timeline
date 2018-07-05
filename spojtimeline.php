@@ -25,6 +25,7 @@ th, td {
 
 <table style="width:75%"">
 <tr>
+<th>Sl. No.</th>
 <th>Name</th>
 <th>Date</th>
 <th>Month</th>
@@ -32,17 +33,14 @@ th, td {
 <th>Time</th>
 </tr>
 <tr>
-
 <?php
 if($_SERVER["REQUEST_METHOD"]=="POST"){
 	
 	
 	$u1=$_POST["user1"];
 	
-
 $lnk='http://www.spoj.com/users/'.$u1.'/';
 $url=file_get_contents($lnk);
-
 if(preg_match_all('/<td align="left" width="14%"><a href="[^"]+">(.+)<\/a><\/td>/',$url,$matched))
 	{
 		//echo ($matched[0][3]);
@@ -78,27 +76,29 @@ if(preg_match_all('/<td align="left" width="14%"><a href="[^"]+">(.+)<\/a><\/td>
 		if(preg_match('/<tr class="kol1 ">([\s\S]*?)<\/tr>/',$url2,$matched1))
 		{
 
-		$r=substr(strip_tags($matched1[1]),19,18);
-
+		$r=substr(strip_tags($matched1[1]),19,17);
+		//echo($name1[$i2]." ".$r);
+		//echo("\n");
 		$timestamp = strtotime($r);
 		$nme=$name1[$i2];
 		$assarr[$nme]=$timestamp;
 	}
 	else
 	{
-		$assarr[$nme]=0;
+		//$assarr[$nme]=0;
 		//$name1[$nme]=0 ;
 	}
 	
 }
 arsort($assarr);
 
-
+$cc=1;
 foreach ($assarr as $key => $value) {
     // $arr[3] will be updated with each value from $arr...
     ?>
-
+    <td><?php echo($cc) ?></td>
     <td><?php echo '<a target="_blank" href=http://www.spoj.com/problems/'.$key.'/>'.$key.'</a>' ; ?></td>
+    
     <td><?php echo date("d",$value); ?></td>
     <td><?php echo date("M",$value); ?></td>
     <td><?php echo date("Y",$value); ?></td>
@@ -112,6 +112,7 @@ foreach ($assarr as $key => $value) {
 	
 	
 <?php	
+$cc=$cc+1;
 }
 }
 ?>
